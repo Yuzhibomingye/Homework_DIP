@@ -9,7 +9,7 @@
 
 `git clone https://github.com/Yuzhibomingye/Homework_DIP.git`
 
-`cd DIP/Assignments/01_ImageWarping`
+`cd DIP/01_ImageWarping`
 
 `pip install -r requirements.txt`
 
