@@ -5,20 +5,22 @@
 
 
 ## **运行环境**
-**为了构建环境与安装所需依赖库，请执行一下命令:**
+**为了构建环境与安装所需依赖库，请执行以下命令:**
 
 `git clone https://github.com/Yuzhibomingye/Homework_DIP.git`
 
-`cd DIP/01_ImageWarping`
+`cd Homework_DIP/01_ImageWarping`
 
 `pip install -r requirements.txt`
 
 ## 程序运行
 
 **为了实现基础的变形功能，请执行以下命令:**
+
 `python run_global_transform.py`
 
 **为了实现控制点变形功能，请执行以下命令:**
+
 `python run_point_transform.py`
 
 ## 结果展示
