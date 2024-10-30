@@ -1,10 +1,28 @@
-### Implement [Pix2Pix](https://phillipi.github.io/pix2pix/) with [Fully Convolutional Layers](https://arxiv.org/abs/1411.4038)
+# Report for Assignment 2
 
-Fill the [Fully Convolutional Network](FCN_network.py#L3) part of `FCN_network.py`, then run:
+## 功能描述
+**该工程是SA24001048王鹏翔对DIP课程中的Assignment_02的实现，实现功能为利用机器学习实现图像的Possion融合与Pix2Pix的粗略实现。本报告仅介绍Pix2Pix**
 
-```bash
-bash download_facades_dataset.sh
-python train.py
-```
 
-The provided code will train the model on the [Facades Dataset](https://cmp.felk.cvut.cz/~tylecr1/facade/). You need to use [other datasets](https://github.com/phillipi/pix2pix#datasets) containing more images for better generalization on the validation set.
+## **运行环境**
+**为了构建Possion融合境与安装所需依赖库，请执行以下命令:**
+
+`git clone https://github.com/Yuzhibomingye/Homework_DIP.git`
+
+`cd Homework_DIP/02_DIPwithPyTorch/Pix2Pix`
+
+`pip install -r requirements.txt`
+
+## 程序运行
+
+**为了实现融合功能，请执行以下命令:**
+
+`python run_blending_gradio.py`
+
+
+## 结果展示
+### 全局变换结果展示
+**1.equation**
+![equation](./pics/equation.png)
+
+
