@@ -38,7 +38,13 @@
 
 ## 结果展示
 ### 本次在不同实验数据集上进行了测试，以下为不同数据集最终的测试结果
-**1.equation**
-![equation](./pics/equation.png)
 
+**1.city**
+![city_train](./pics/city_train.png)
 
+![city_val](./pics/city_val.png)
+
+**2.maps**
+![maps_train](./pics/maps_train.png)
+
+![maps_val](./pics/maps_val.png)
