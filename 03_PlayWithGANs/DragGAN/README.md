@@ -8,9 +8,13 @@
 **为了构建环境与安装所需依赖库，请执行以下命令:**
 
 `git clone https://github.com/Yuzhibomingye/Homework_DIP.git`
+
 `cd Homework_DIP/03_PlayWithGANs/DragGAN`
+
 `conda env create -f environment.yml`
+
 `conda activate stylegan3`
+
 `pip install face_alignment`
 
 ## 程序运行
