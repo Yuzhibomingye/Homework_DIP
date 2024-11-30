@@ -1,7 +1,7 @@
-# Report for Assignment 2
+# Report for Assignment 3
 
 ## 功能描述
-**该工程是SA24001048王鹏翔对DIP课程中的Assignment_02的实现，实现功能为利用机器学习实现图像的Possion融合与Pix2Pix的粗略实现。本报告仅介绍Pix2Pix**
+**该工程是SA24001048王鹏翔对DIP课程中的Assignment_03的实现，实现功能为Pix2Pix+GAN**
 
 
 ## **运行环境**
@@ -9,7 +9,7 @@
 
 `git clone https://github.com/Yuzhibomingye/Homework_DIP.git`
 
-`cd Homework_DIP/02_DIPwithPyTorch/Pix2Pix`
+`cd Homework_DIP/03_PlayWithGANs/Pix2Pix`
 
 `pip install -r requirements.txt`
 
@@ -37,16 +37,11 @@
 **程序每进行5伦训练就会将其在训练集与测试集上的结果保存在train_results和val_results中**
 
 ## 结果展示
-**本次在不同实验数据集上进行了测试，以下为不同数据集最终的测试结果**
+**本次在不同实验数据集上进行了测试，以下为最终的测试结果**
 
-**1.city**
 
-![city_train](./pics/city_train.png)
+![facades_1](./pics/facades_1.png)
 
-![city_val](./pics/city_val.png)
+![facades_2](./pics/facades_2.png)
 
-**2.maps**
-
-![maps_train](./pics/maps_train.png)
-
-![maps_val](./pics/maps_val.png)
+![facades_3](./pics/facades_3.png)

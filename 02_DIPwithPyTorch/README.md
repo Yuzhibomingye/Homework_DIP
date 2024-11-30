@@ -5,7 +5,7 @@
 
 
 ## **运行环境**
-**为了构建Possion融合境与安装所需依赖库，请执行以下命令:**
+**为了构建Possion融合环境与安装所需依赖库，请执行以下命令:**
 
 `git clone https://github.com/Yuzhibomingye/Homework_DIP.git`
 
