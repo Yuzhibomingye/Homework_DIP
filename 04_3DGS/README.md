@@ -22,3 +22,23 @@
 
 
 **将PLACE_IMAGE的部分换成对应图片所在路径即可。**
+
+## 结果展示
+
+**运行结果如下:**
+
+**chair数据在175轮训练在36图片的视角下的结果:**
+
+![chair](./data/chair/checkpoints/debug_images/epoch_0174/r_36.png)
+
+**最终生成的观察视频**
+
+![chair_2](./data/chair/checkpoints/debug_rendering.gif)
+
+**lego数据在175轮训练在36图片的视角下的结果:**
+
+![lego](./data/lego/checkpoints/debug_images/epoch_0174/r_44.png)
+
+**最终生成的观察视频**
+
+![lego_2](./data/lego/checkpoints/debug_rendering.gif)

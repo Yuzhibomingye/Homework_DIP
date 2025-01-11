@@ -45,42 +45,34 @@ class GaussianRenderer(nn.Module):
         
         # 4. Transform covariance to camera space and then to 2D
         # Compute Jacobian of perspective projection
+        J_proj = torch.zeros((N, 2, 3), device=means3D.device)
         ### FILL:
         ### J_proj = ...
-        tx, ty, tz = cam_points.unbind(dim=-1)  
-        tz2 = tz**2  
-        width = self.W
-        height = self.H
+        
+        z_inv = 1 / cam_points[:, 2]           # (N,)
+        z_inv_squared = z_inv ** 2            # (N,)
 
-        fx, fy = K[..., 0, 0, None], K[..., 1, 1, None]  
-        cx, cy = K[..., 0, 2, None], K[..., 1, 2, None]  
-
-        tan_fovx = 0.5 * width / fx
-        tan_fovy = 0.5 * height / fy
-
-        lim_x_pos = (width - cx) / fx + 0.3 * tan_fovx
-        lim_x_neg = cx / fx + 0.3 * tan_fovx
-        lim_y_pos = (height - cy) / fy + 0.3 * tan_fovy
-        lim_y_neg = cy / fy + 0.3 * tan_fovy
-
-
-        tx_clamped = tz * torch.clamp(tx / tz, min=-lim_x_neg, max=lim_x_pos)
-        ty_clamped = tz * torch.clamp(ty / tz, min=-lim_y_neg, max=lim_y_pos)
-
-
-        zeros = torch.zeros(N, device=cam_points.device, dtype=cam_points.dtype)  # 使用 torch.zeros_like 避免重复指定尺寸和设备
-        J_proj = torch.stack(
-            [fx / tz, zeros, -fx * tx_clamped / tz2,  
-            zeros, fy / tz, -fy * ty_clamped / tz2],  
-            dim=-1
-        ).reshape(N, 2, 3)  # (N, 2, 3)
+        # Fill in Jacobian matrix
+        J_proj[:, 0, 0] = K[0, 0] * z_inv      # d(u)/d(x)
+        J_proj[:, 0, 1] = K[0, 1] * z_inv      # d(u)/d(y)
+        J_proj[:, 0, 2] = -(K[0, 0] * cam_points[:, 0] + K[0, 1] * cam_points[:, 1]) * z_inv_squared  # d(u)/d(z)
+        
+        J_proj[:, 1, 1] = K[1, 1] * z_inv      # d(v)/d(y)
+        J_proj[:, 1, 2] = -(K[1, 1] * cam_points[:, 1]) * z_inv_squared  # d(v)/d(z)
         # Transform covariance to camera space
         ### FILL: Aplly world to camera rotation to the 3d covariance matrix
         ### covs_cam = ...  # (N, 3, 3)
         covs_cam = R @ covs3d @ R.T
         # Project to 2D
         covs2D = torch.bmm(J_proj, torch.bmm(covs_cam, J_proj.permute(0, 2, 1)))  # (N, 2, 2)
-        
+
+        if torch.isnan(means2D).any():
+            print("jb")
+        if torch.isnan(covs2D).any():
+            print("jb")
+        if torch.isnan(depths).any():
+            print("jb")
+
         return means2D, covs2D, depths
 
     def compute_gaussian_values(
@@ -104,17 +96,13 @@ class GaussianRenderer(nn.Module):
         ### gaussian = ... ## (N, H, W)
 
 
-        epsilon = 1e-4
-        identity = torch.eye(2, device=covs2D.device).expand(covs2D.shape[0], -1, -1)
-        covs2D = covs2D + epsilon * identity
-        covs2D_inv = torch.linalg.inv(covs2D)
+        covs2D_inv = torch.linalg.inv(covs2D)  # 使用 Torch 提供的高效逆矩阵计算
 
-        # P = -0.5 * torch.einsum('npki,nij,npkj->npk', dx, torch.linalg.inv(covs2D), dx)
-        P = (-0.5 * dx.unsqueeze(-2) @ covs2D_inv.unsqueeze(1).unsqueeze(1) @ dx.unsqueeze(-1)).clamp(max = 80)
-        # c = (2*torch.pi*torch.sqrt(torch.linalg.det(covs2D))).unsqueeze(1).unsqueeze(2).repeat(1, H, W)
-        # gaussian = torch.exp(P)/c
-        gaussian = torch.exp(P).squeeze(-1).squeeze(-1)
-    
+
+        P = -0.5*torch.einsum('nhwi,nhwi->nhw',dx,torch.einsum('njk,nhwk -> nhwj',covs2D_inv,dx))
+        determinant = covs2D[:,0,0]*covs2D[:,1,1]-covs2D[:,0,1]*covs2D[:,1,0]+eps
+        gaussian = 1.0/(2*torch.pi*torch.sqrt(determinant.reshape(-1,1,1)))*torch.exp(P)
+
         return gaussian
 
     def forward(
