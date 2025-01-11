@@ -35,7 +35,7 @@
 
 ![chair_2](./data/chair/checkpoints/debug_rendering.gif)
 
-**lego数据在175轮训练在36图片的视角下的结果:**
+**lego数据在175轮训练在44图片的视角下的结果:**
 
 ![lego](./data/lego/checkpoints/debug_images/epoch_0174/r_44.png)
 
